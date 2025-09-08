@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scroll Reveal Images</title>
+  <link rel="icon" href="https://fav.farm/✅" />
+  <style>
+    html {
+      box-sizing: border-box;
+      background: #ffc600;
+      font-family: 'Helvetica Neue', sans-serif;
+      font-size: 20px;
+      font-weight: 200;
+    }
+
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .site-wrap {
+      max-width: 700px;
+      margin: 100px auto;
+      background: #fff;
+      padding: 40px;
+      text-align: justify;
+    }
+
+    .align-left {
+      float: left;
+      margin-right: 20px;
+    }
+
+    .align-right {
+      float: right;
+      margin-left: 20px;
+    }
+
+    .slide-trigger {
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .align-left.slide-trigger {
+      transform: translateX(-30%) scale(0.95);
+    }
+
+    .align-right.slide-trigger {
+      transform: translateX(30%) scale(0.95);
+    }
+
+    .slide-trigger.visible {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="site-wrap">
+    <h1>Images Reveal on Scroll</h1>
+
+    <!-- Content & images left unchanged for brevity -->
+    <!-- Replace all `class="slide-in"` with `class="slide-trigger"` in your actual content below -->
+
+    <img src="http://unsplash.it/400/400" class="align-left slide-trigger">
+    <img src="http://unsplash.it/400/401" class="align-right slide-trigger">
+    <img src="http://unsplash.it/200/500" class="align-left slide-trigger">
+    <img src="http://unsplash.it/200/200" class="align-right slide-trigger">
+    <img src="http://unsplash.it/400/400" class="align-right slide-trigger">
+
+    <!-- You can copy-paste all your existing <p> blocks and just update `slide-in` to `slide-trigger` in image classes -->
+  </div>
+
+  <script>
+    const debounceFn = (callback, delay = 20, immediate = true) => {
+      let timeout;
+      return function () {
+        const context = this;
+        const args = arguments;
+        const later = function () {
+          timeout = null;
+          if (!immediate) callback.apply(context, args);
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, delay);
+        if (callNow) callback.apply(context, args);
+      };
+    };
+
+    const imagesToReveal = document.querySelectorAll('.slide-trigger');
+
+    function revealImagesOnScroll() {
+      imagesToReveal.forEach(img => {
+        const scrollTriggerPoint = (window.scrollY + window.innerHeight) - img.height / 2;
+        const imgBottomEdge = img.offsetTop + img.height;
+
+        const isHalfShown = scrollTriggerPoint > img.offsetTop;
+        const isStillVisible = window.scrollY < imgBottomEdge;
+
+        if (isHalfShown && isStillVisible) {
+          img.classList.add('visible');
+        } else {
+          img.classList.remove('visible');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', debounceFn(revealImagesOnScroll));
+  </script>
+</body>
+</html>
