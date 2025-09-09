@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Secret Code Detection</title>
+  <script src="./cornify.js"></script>
+  <link rel="icon" href="https://fav.farm/✅" />
+</head>
+<body>
+  <script>
+    const keysPressed = [];
+    const codeToMatch = 'wesbos';
+
+    window.addEventListener('keyup', (event) => {
+      console.log(event.key);
+
+      keysPressed.push(event.key);
+      keysPressed.splice(-codeToMatch.length - 1, keysPressed.length - codeToMatch.length);
+
+      if (keysPressed.join('').includes(codeToMatch)) {
+        console.log('✨ Secret Unlocked!');
+        cornify_add();
+      }
+
+      console.log(keysPressed);
+    });
+  </script>
+</body>
+</html>
