@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reference vs Copy in JS</title>
+  <link rel="icon" href="https://fav.farm/✅" />
+</head>
+<body>
+
+  <script>
+    // --- Primitives (strings, numbers, booleans) behave like copies ---
+
+    let score = 50;
+    let newScore = score;
+    console.log('Before:', score, newScore);
+    score = 90;
+    console.log('After:', score, newScore);
+
+    let userName = 'Alice';
+    let alias = userName;
+    console.log('Before:', userName, alias);
+    userName = 'Bob';
+    console.log('After:', userName, alias);
+
+    // --- Arrays are referenced, not copied by default ---
+
+    const originalPlayers = ['Tom', 'Jerry', 'Spike', 'Tyke'];
+    const copiedTeam = originalPlayers;
+
+    console.log('Before change:', originalPlayers, copiedTeam);
+
+    // Modify the copied array
+    copiedTeam[2] = 'Butch';
+
+    console.log('After change:', originalPlayers, copiedTeam);
+    // Both got changed! Why? Because it's a reference.
+
+    // --- Ways to copy an array properly ---
+
+    const teamA = originalPlayers.slice();
+    const teamB = [].concat(originalPlayers);
+    const teamC = [...originalPlayers];
+    const teamD = Array.from(originalPlayers);
+
+    teamC[1] = 'ChangedName';
+    console.log('teamC modified:', teamC);
+    console.log('originalPlayers unchanged:', originalPlayers);
+
+    // --- Same issue with objects ---
+
+    const user = {
+      fullName: 'Alice Cooper',
+      age: 45
+    };
+
+    // Reference
+    const clonedUser = user;
+    clonedUser.age = 99;
+    console.log('Modified user:', user);
+
+    // Copy using Object.assign()
+    const updatedUser = Object.assign({}, user, { age: 30 });
+    console.log('Copied and updated user:', updatedUser);
+
+    // Using spread operator (shallow copy)
+    const spreadUser = { ...user };
+    spreadUser.fullName = 'Bob Dylan';
+    console.log('Spread copy:', spreadUser);
+    console.log('Original still:', user);
+
+    // --- Deep Copy (for nested objects) ---
+
+    const profile = {
+      name: 'Dave',
+      age: 29,
+      socials: {
+        twitter: '@daveDev',
+        github: 'dave-dev'
+      }
+    };
+
+    console.clear();
+    console.log('Original profile:', profile);
+
+    // Shallow copy
+    const shallowProfile = Object.assign({}, profile);
+    shallowProfile.socials.twitter = '@hacked';
+    console.log('Shallow copy after change:', shallowProfile);
+    console.log('Original also affected:', profile);
+
+    // Deep copy using JSON
+    const deepClonedProfile = JSON.parse(JSON.stringify(profile));
+    deepClonedProfile.socials.twitter = '@safeClone';
+    console.log('Deep copy:', deepClonedProfile);
+    console.log('Original preserved:', profile);
+
+  </script>
+
+</body>
+</html>
