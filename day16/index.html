@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Reactive Shadow</title>
+  <link rel="icon" href="https://fav.farm/✅" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: sans-serif;
+      background: #fff;
+      color: #000;
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 100px;
+      text-shadow: 8px 8px 0 rgba(0, 0, 0, 0.8);
+      transition: text-shadow 0.1s ease;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 contenteditable>🌟 Hello World!</h1>
+  </div>
+
+  <script>
+    const container = document.querySelector('.container');
+    const heading = container.querySelector('h1');
+    const maxShadowDistance = 400; 
+
+    function handleMouseMove(event) {
+      const { offsetWidth: width, offsetHeight: height } = container;
+      let { offsetX: mouseX, offsetY: mouseY } = event;
+
+    
+      if (event.target !== container) {
+        mouseX += event.target.offsetLeft;
+        mouseY += event.target.offsetTop;
+      }
+
+     
+      const xOffset = Math.round((mouseX / width * maxShadowDistance) - (maxShadowDistance / 2));
+      const yOffset = Math.round((mouseY / height * maxShadowDistance) - (maxShadowDistance / 2));
+
+      
+      heading.style.textShadow = `
+        ${xOffset}px ${yOffset}px 0 rgba(255, 0, 255, 0.7),
+        ${-xOffset}px ${yOffset}px 0 rgba(0, 255, 255, 0.7),
+        ${yOffset}px ${-xOffset}px 0 rgba(0, 255, 0, 0.7),
+        ${-yOffset}px ${xOffset}px 0 rgba(0, 0, 255, 0.7)
+      `;
+    }
+
+    container.addEventListener('mousemove', handleMouseMove);
+  </script>
+
+</body>
+</html>
