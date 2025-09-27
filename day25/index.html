@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Propagation Demo</title>
+  <link rel="icon" href="https://fav.farm/✔️" />
+</head>
+<body class="main-body">
+
+  <section class="outer">
+    <section class="middle">
+      <section class="inner">
+      </section>
+    </section>
+  </section>
+
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    section {
+      width: 100%;
+      padding: 90px;
+    }
+
+    .outer {
+      background-color: lavender;
+    }
+
+    .middle {
+      background-color: peachpuff;
+    }
+
+    .inner {
+      background-color: tomato;
+    }
+  </style>
+
+  <button id="clickMe">Press Me</button>
+
+  <script>
+    const sections = document.querySelectorAll('section');
+    const clickBtn = document.getElementById('clickMe');
+
+    function showClassName(event) {
+      console.log("Clicked element class:", this.className);
+      // Uncomment to prevent bubbling
+      // event.stopPropagation();
+    }
+
+    sections.forEach(sec => {
+      sec.addEventListener('click', showClassName, {
+        capture: false,
+        once: true
+      });
+    });
+
+    clickBtn.addEventListener('click', () => {
+      console.log('Button clicked!');
+    }, {
+      once: true
+    });
+  </script>
+</body>
+</html>
